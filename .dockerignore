@@ -1,0 +1,12 @@
+# flyctl launch added from .gitignore
+**/__pycache__
+**/env
+**/.venv
+**/*/htmlcov
+**/*/.coverage
+**/.env
+**/*/.pytest_cache
+**/.vscode
+**/*/__pycache__
+**/*/.pytest_cache
+fly.toml
