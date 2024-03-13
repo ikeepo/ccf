@@ -1,3 +1,4 @@
+PWD = $(shell pwd)
 black:
 	docker-compose exec web black .
 pytest:
@@ -11,7 +12,10 @@ routine:
 	docker-compose exec web pytest .
 rebuild:
 	docker-compose up -d --build
-
+init_venv:
+	python -m venv .venv
+	source $(PWD)/.venv/bin/activate && \
+    python -m pip install -r requirements.txt
 init_db_meta:
 	docker-compose exec web aerich init -t app.db.TORTOISE_ORM
 init_db:
