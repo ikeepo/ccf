@@ -2,6 +2,19 @@ from nicegui import ui
 import plotly.graph_objects as go
 import os
 from random import random, uniform
+import requests
+import json
+
+
+def get_flowmap_json(addr: str):
+    url_base = "http://127.0.0.1:8004"
+    url = f"{url_base}/cash_flow/draw_flowmap/"
+    payload = {
+        "sender_address": addr,
+    }
+    response = requests.post(url=url, data=json.dumps(payload))
+    return response.json()
+
 
 with ui.row().classes("w-full items-center justify-center"):
     ui.label("Crypto Currency Flow").classes("text-2xl font-bold")
@@ -47,8 +60,10 @@ def update_image(addr: str):
             x=[uniform(1, 5) for _ in range(3)], y=[uniform(1, 5) for _ in range(3)]
         )
     )
-    fig.update_layout(margin=dict(l=0, r=0, t=50, b=0), title=addr)
+    ## 获取json数据用以表示图片
+    json_data = get_flowmap_json(addr)
+    fig = json_data
     plot.update_figure(fig)
 
 
-ui.run(title="Crypto Currency Flow", reload='FLY_ALLOC_ID' not in os.environ)
+ui.run(title="Crypto Currency Flow", reload="FLY_ALLOC_ID" not in os.environ)
