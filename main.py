@@ -9,7 +9,7 @@ with ui.row().classes("w-full items-center justify-center"):
     ui.link("Github", "https://github.com/ikeepo/ccf").classes("mt-18")
     ui.space()
     ui.chat_message(
-        "Hi, This is a demo for job hunting",
+        "Hi, This is a demo for job hunting.\n\nIt don't have enough data to show the the hold flow.",
         name="ikeepo",
         stamp="now",
         avatar="https://robohash.org/ui",
