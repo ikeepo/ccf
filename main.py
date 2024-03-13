@@ -34,8 +34,8 @@ with ui.row().classes("w-full items-center justify-center"):
     input = ui.input(
         label="Input addr which you want to check",
         placeholder="start typing",
-        value="dafagaadgagaerhgerahrhrahahg",
-        validation={"Input too short": lambda value: len(value) > 15},
+        value="0x000111",
+        validation={"Input too short": lambda value: len(value) > 5},
     ).props("clearable")
     # 调整窗口长度
     input.classes("w-1/2 items-center justify-center")
