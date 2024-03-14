@@ -4,6 +4,24 @@ import os
 from random import random, uniform
 import requests
 import json
+from graphviz import Digraph, Source
+
+from PIL import Image
+# from io import BytesIO
+image_widget = None
+def update_graph(addr):
+    response = requests.get("http://127.0.0.1:8000")
+    data = response.json()
+    graph_data = data["message"]
+    graph = Source(graph_data)
+    graph.render('graph', format='png', cleanup=True) 
+    global image_widget
+    # Display the image in NiceGUI
+    img = Image.open("graph.png")
+    if image_widget is None:
+        image_widget = ui.image(img)
+    else:
+        image_widget.value = img
 
 
 def get_flowmap_json(addr: str):
@@ -14,6 +32,7 @@ def get_flowmap_json(addr: str):
     }
     response = requests.post(url=url, data=json.dumps(payload))
     return response.json()
+
 
 
 with ui.row().classes("w-full items-center justify-center"):
@@ -43,27 +62,24 @@ with ui.row().classes("w-full items-center justify-center"):
     button = ui.button(
         "CheckFLow",
         # on_click=lambda: ui.notify(input.value),
-        on_click=lambda: update_image(input.value),
+        # on_click=lambda: update_image(input.value),
+        on_click=lambda: update_graph(input.value),
     )
 ui.separator().classes("w-full border-t-5 border-gray-300 col-span-2")
 ## 生成图片
-fig = go.Figure(
-    go.Line(x=[uniform(1, 5) for _ in range(3)], y=[uniform(1, 5) for _ in range(3)])
-)
-fig.update_layout(margin=dict(l=0, r=0, t=50, b=0), title="This is a demo flow")
-plot = ui.plotly(fig).classes("w-full")
+# fig = go.Figure(
+#     go.Line(x=[uniform(1, 5) for _ in range(3)], y=[uniform(1, 5) for _ in range(3)])
+# )
+# fig.update_layout(margin=dict(l=0, r=0, t=50, b=0), title="This is a demo flow")
+# plot = ui.plotly(fig).classes("w-full")
 
 
-def update_image(addr: str):
-    fig = go.Figure(
-        go.Line(
-            x=[uniform(1, 5) for _ in range(3)], y=[uniform(1, 5) for _ in range(3)]
-        )
-    )
+# def update_image(addr: str):
     ## 获取json数据用以表示图片
-    json_data = get_flowmap_json(addr)
-    fig = json_data
-    plot.update_figure(fig)
+    # json_data = get_flowmap_json(addr)
+    # json_data = get_flowmap_json_demo(addr)
+    # fig = json_data
+    # plot.update_figure(fig)
 
 
 ui.run(title="Crypto Currency Flow", reload="FLY_ALLOC_ID" not in os.environ)
