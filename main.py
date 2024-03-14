@@ -10,28 +10,39 @@ from PIL import Image
 # from io import BytesIO
 image_widget = None
 def update_graph(addr):
-    response = requests.get("http://127.0.0.1:8000")
+    # response = requests.get("http://127.0.0.1:8000")
+    response = get_draw_flowmap(addr)
     data = response.json()
     graph_data = data["message"]
     graph = Source(graph_data)
-    graph.render('graph', format='png', cleanup=True) 
+    graph.render(f'graph_{addr}', format='png', cleanup=True) 
     global image_widget
     # Display the image in NiceGUI
-    img = Image.open("graph.png")
+    img = Image.open(f"graph_{addr}.png")
+    # image_widget = ui.image(img)
     if image_widget is None:
         image_widget = ui.image(img)
+        print(f"image_widget is None: {addr}")
     else:
+        # image_widget = None
+        # image_widget = ui.image(img)
         image_widget.value = img
+        # image_widget.source(img)
+        # image_widget.bind_from(img)
+        # print(dir(image_widget))
+        # image_widget.update_image()
+        # print(f"image_widget isnot None: {addr}")
 
 
-def get_flowmap_json(addr: str):
+def get_draw_flowmap(addr: str):
     url_base = "https://young-chamber-41337-67dbb5d1ef56.herokuapp.com"
+    url_base = "http://127.0.0.1:8004"
     url = f"{url_base}/cash_flow/draw_flowmap/"
     payload = {
         "sender_address": addr,
     }
     response = requests.post(url=url, data=json.dumps(payload))
-    return response.json()
+    return response
 
 
 
@@ -76,7 +87,7 @@ ui.separator().classes("w-full border-t-5 border-gray-300 col-span-2")
 
 # def update_image(addr: str):
     ## 获取json数据用以表示图片
-    # json_data = get_flowmap_json(addr)
+    # json_data = get_draw_flowmap(addr)
     # json_data = get_flowmap_json_demo(addr)
     # fig = json_data
     # plot.update_figure(fig)
