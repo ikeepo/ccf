@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for ccflow on 2024-03-13T18:35:43+08:00
+# fly.toml app configuration file generated for ccflow on 2024-03-15T09:58:21+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'ccflow'
-primary_region = 'hkg'
+primary_region = 'nrt'
 
 [build]
 

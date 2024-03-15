@@ -36,7 +36,7 @@ def update_graph(addr):
 
 def get_draw_flowmap(addr: str):
     url_base = "https://young-chamber-41337-67dbb5d1ef56.herokuapp.com"
-    url_base = "http://127.0.0.1:8004"
+    # url_base = "http://127.0.0.1:8004"
     url = f"{url_base}/cash_flow/draw_flowmap/"
     payload = {
         "sender_address": addr,
